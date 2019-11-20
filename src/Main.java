@@ -13,7 +13,7 @@ public class Main {
             if (wrestlerA.getFame()>wrestlerB.getFame()){
                  wrestler = wrestlerA;
             }else wrestler = wrestlerB;
-            System.out.println("Ladies and Gentlemans! Welcome to our Wrestling championship! Today, our fighters are:");
+            System.out.println("Ladies and Gentlemans!  Welcome to our Wrestling championship! Today, our fighters are:");
             System.out.println(wrestlerA.getName()+", "+wrestlerA.getRole()+" (Fame: "+wrestlerA.getFame()+", Strike: " +
                     ""+wrestlerA.getStrike().getStrenghtOfMove()+", Dodge: "+wrestlerA.getDodge().getStrenghtOfMove()+", " +
                     "Grab: "+wrestlerA.getGrab().getStrenghtOfMove()+")");
