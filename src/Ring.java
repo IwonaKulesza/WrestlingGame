@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Ring {
 
-    public Wrestler show(Wrestler wrestlerA, Wrestler wrestlerB){
+    public void show(Wrestler wrestlerA, Wrestler wrestlerB){
 
         int rounds = 1;
         Wrestler winner = null;
@@ -24,17 +24,14 @@ public class Ring {
             if (wrestlerA.getFame()<=0){
                 System.out.println(wrestlerA.getName()+" Has failed!!! Crowd is cheering name of a new champion! "+
                         wrestlerB.getName().toUpperCase()+"!!! "+wrestlerB.getName().toUpperCase()+"!!! "+wrestlerB.getName().toUpperCase()+"!!! ");
-                winner = wrestlerB;
             break;
             }
             if (wrestlerB.getFame()<=0){
                 System.out.println(wrestlerB.getName()+" Has failed!!! Crowd is cheering name of a new champion! "+
                         wrestlerA.getName().toUpperCase()+"!!! "+wrestlerA.getName().toUpperCase()+"!!! "+wrestlerA.getName().toUpperCase()+"!!! ");
-            winner = wrestlerB;
                 break;
             }
         }
-        return winner;
     }
 
     private Wrestler.Move determinateMove(Wrestler wrestler) {
@@ -93,8 +90,7 @@ public class Ring {
                     winning = moveB;
                 }
 
-                System.out.println("Let see, it looks like " + loser.getName() + " tried to grab " + winner.getName() + "! And i guess that " +
-                        winner.getName() + " was not really into that, as " + loser.getName() + " got strikeed really hard!");
+                System.out.println(grabStrike(winner,loser));
                 getHurt(loser, winning);
 
             }
@@ -110,9 +106,7 @@ public class Ring {
                     loser = wrestlerA;
                     winning = moveB;
                 }
-
-                System.out.println("Swift strike by " + loser.getName() + "! But " + winner.getName() + " showed that nothing cant be dodged!" +
-                        winner.getName() + " also took a chance to smack  " + loser.getName() + " around a little. What a show!");
+                System.out.println(strikeDodge(winner,loser));
                 getHurt(loser, winning);
             }
 
@@ -127,14 +121,38 @@ public class Ring {
                     loser = wrestlerA;
                     winning = moveB;
                 }
-                System.out.println("Pathetic wiggling did not work, and "+loser.getName()+" got grabbed and smashed to " +
-                        "the ground by "+winner.getName());
+                System.out.println(dodgeGrab(winner,loser));
                 getHurt(loser, winning);
             }
         }
         }
 
+    private String grabStrike(Wrestler winner,Wrestler loser){
+        Random random = new Random();
+        String[] reactionsLibrary = {
+        "Let see, it looks like " + loser.getName() + " tried to grab " + winner.getName() + "! And i guess that " +
+        winner.getName() + " was not really into that, as " + loser.getName() + " got strikeed really hard!",
+        };
+        return reactionsLibrary[random.nextInt(reactionsLibrary.length)];
+    }
 
+    private String strikeDodge(Wrestler winner,Wrestler loser){
+        Random random = new Random();
+        String[] reactionsLibrary = {
+        "Swift strike by " + loser.getName() + "! But " + winner.getName() + " showed that nothing cant be dodged!" +
+        winner.getName() + " also took a chance to smack  " + loser.getName() + " around a little. What a show!",
+        };
+        return reactionsLibrary[random.nextInt(reactionsLibrary.length)];
+    }
+
+    private String dodgeGrab(Wrestler winner,Wrestler loser){
+        Random random = new Random();
+        String[] reactionsLibrary = {
+        "Pathetic wiggling did not work, and "+loser.getName()+" got grabbed and smashed to " +
+        "the ground by "+winner.getName(),
+        };
+        return reactionsLibrary[random.nextInt(reactionsLibrary.length)];
+    }
 
     private void getHurt(Wrestler loser, Wrestler.Move winning){
         loser.setFame(loser.getFame()-winning.getStrenghtOfMove());
