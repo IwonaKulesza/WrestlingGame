@@ -131,7 +131,7 @@ public class Ring {
         Random random = new Random();
         String[] reactionsLibrary = {
         "Let see, it looks like " + loser.getName() + " tried to grab " + winner.getName() + "! And i guess that " +
-        winner.getName() + " was not really into that, as " + loser.getName() + " got strikeed really hard!",
+        winner.getName() + " was not really into that, as " + loser.getName() + " got strike really hard!",
         };
         return reactionsLibrary[random.nextInt(reactionsLibrary.length)];
     }
