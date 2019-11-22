@@ -4,7 +4,7 @@ public class Wrestler {
 
 
     protected enum Role {
-        HEEL, FACE, NEWCOMER, TESTER
+        HEEL, FACE, NEWCOMER
     }
 
     protected class Move{
