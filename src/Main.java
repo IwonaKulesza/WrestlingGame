@@ -2,12 +2,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-            Wrestler wrestlerA = new WrestlerGenerator().generateWrestler();
-            Wrestler wrestlerB = new WrestlerGenerator().generateWrestler();
+            Wrestler wrestlerA = new WrestlerCreator().newWrestler();
+            Wrestler wrestlerB = new WrestlerCreator().newWrestler();
 
-
-
-
-            new Ring().show(wrestlerA, wrestlerB);
+            new Ring().show(wrestlerA,wrestlerB);
     }
 }
