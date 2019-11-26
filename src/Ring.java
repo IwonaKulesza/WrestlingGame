@@ -8,12 +8,10 @@ public class Ring {
         Wrestler winner = null;
 
         while (true) {
-            System.out.println("ROUND " + rounds + "!");
+            System.out.println("\n:::ROUND " + rounds + "!:::");
             rounds++;
-            if (rounds==10){
-                System.out.println("Finishing round! Crowd is ready for a big face off!");
-                wrestlerA.setFame(1);
-                wrestlerB.setFame(1);
+            if (rounds == 11) {
+                System.out.println("Crowd is ready for a big face off! Each round will now take 10% wrestlers fame!");
             }
 
             Wrestler.Move moveA = determinateMove(wrestlerA);
@@ -21,16 +19,25 @@ public class Ring {
 
             attack(wrestlerA,moveA,wrestlerB,moveB);
 
-            if (wrestlerA.getFame()<=0){
-                System.out.println(wrestlerA.getName()+" Has failed!!! Crowd is cheering name of a new champion! "+
-                        wrestlerB.getName().toUpperCase()+"!!! "+wrestlerB.getName().toUpperCase()+"!!! "+wrestlerB.getName().toUpperCase()+"!!! ");
-            break;
-            }
-            if (wrestlerB.getFame()<=0){
-                System.out.println(wrestlerB.getName()+" Has failed!!! Crowd is cheering name of a new champion! "+
-                        wrestlerA.getName().toUpperCase()+"!!! "+wrestlerA.getName().toUpperCase()+"!!! "+wrestlerA.getName().toUpperCase()+"!!! ");
+            if (wrestlerLostAllFame(wrestlerA,wrestlerB)){
                 break;
             }
+
+
+            if (rounds>=11) {
+
+                int percentA = (wrestlerA.getFame()/10);
+                int percentB = (wrestlerB.getFame()/10);
+                System.out.println(wrestlerA.getName()+" lost "+percentA+" points of fame! ("+wrestlerA.getFame()+")");
+                System.out.println(wrestlerB.getName()+" lost "+percentB+" points of fame! ("+wrestlerB.getFame()+")");
+
+                wrestlerA.setFame(wrestlerA.getFame()-percentA);
+                wrestlerB.setFame(wrestlerB.getFame()-percentB);
+                if (wrestlerLostAllFame(wrestlerA,wrestlerB)){
+                    break;
+                }
+            }
+
         }
     }
 
@@ -159,5 +166,26 @@ public class Ring {
         System.out.println(loser.getName()+" loses "+winning.getStrenghtOfMove()+" fame points ("+loser.getFame()+" fame left)");
     }
 
+    private boolean wrestlerLostAllFame(Wrestler wrestlerA, Wrestler wrestlerB){
+
+        if (wrestlerA.getFame()>0&&wrestlerB.getFame()>0){
+            return false;
+        }
+        else if (wrestlerA.getFame()<=0&&wrestlerB.getFame()<=0){
+            System.out.println("BY THE GODS OF WRESTLING!!! IS THIS EVEN POSSIBLE? DEAR LORD, THEY KO'D EACH OTHER! OH! MY! GOOOOOOD!");
+            return true;
+        }
+        else if (wrestlerA.getFame()<=0){
+            System.out.println(wrestlerA.getName()+" Has failed!!! Crowd is cheering name of a new champion! "+
+                    wrestlerB.getName().toUpperCase()+"!!! "+wrestlerB.getName().toUpperCase()+"!!! "+wrestlerB.getName().toUpperCase()+"!!! ");
+            return true;
+        }else if(wrestlerB.getFame()<=0){
+            System.out.println(wrestlerB.getName()+" Has failed!!! Crowd is cheering name of a new champion! "+
+                    wrestlerA.getName().toUpperCase()+"!!! "+wrestlerA.getName().toUpperCase()+"!!! "+wrestlerA.getName().toUpperCase()+"!!! ");
+            return true;
+        }
+        else return false;
+
+    }
 
 }
