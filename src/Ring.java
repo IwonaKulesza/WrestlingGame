@@ -2,6 +2,66 @@ import java.util.Random;
 
 public class Ring {
 
+    private String bigDamageReaction(Wrestler loser, Wrestler winner) {
+
+        Random random = new Random();
+        String[] reaction = {"BY GOD, JIM! HE'S BROKEN IN HALF! HE'S BROKEN IN HAAAAAAAALF!",
+                "REF, STOP THIS MADNESS! HE'S ALREADY DEAD!", "JIM! JIM! IS THAT KIND OF MASSACRE EVEN LEGAL INM WRESTLING???",
+                "Hahaa, right on the schnozzle!", "WHY, WHY, YOU BASTARD, TELL ME WHY???", "OH THE HUMANITY!!!",
+                "TERRIBLE, TERRIBLE DAMAGE ON THE " + loser.getName().toUpperCase(),
+                winner.getName()+" is unstoppable! It's like there's NO WEAKNESS!",
+                "That must have hurt. "+loser.getName()+" does not look like he will stand up after this one.",
+                winner.getName()+" has executed the Thunder Cross Split Attack! A perfect mixture of offense and defense!",
+                "Oooch! Noone should be standing up after that!","How can he stand after taking such a blow?! "+loser.getName()
+                +" seems to have inhuman strength to be withstanding such a barrage of strikes."};
+
+        return reaction[random.nextInt(reaction.length)];
+    }
+    private String noDamageReaction(Wrestler loser, Wrestler winner) {
+
+        Random random = new Random();
+        String[] reaction = {"Nothing really happened but.... well you can definitely see a shift in the momentum...",
+                "Pass the newspaper Jim, this may take a while.", "Well, they trying to be entertaining. I guess", "Meh",
+                "WHERE'S THE SHOW???", "nice work on both sides, but I think they both need a moment to recover",
+                "I hope they both step up their game, or it's going to be a boring show", "They're both eyeing each other... What's next?",
+                "Bobby, im calling the pizza place, want some?","Yawn.","Boooring...","Well, lets cheer them up a little, huh?"};
+
+        return reaction[random.nextInt(reaction.length)];
+    }
+    private String strikeDodgeReaction (Wrestler loser, Wrestler winner) {
+
+        Random random = new Random();
+        String[] reaction = {"Swift strike by "+loser.getName()+" but great dodge by "+winner.getName()+" and i can see that "+winner.getName()+
+                " also took a chance to strike "+loser.getName()+".", loser.getName()+" should have taken Tackle on " +
+                "last lvl up, as "+winner.getName()+ "dodged that attack easily and made a bone shattering return!",
+                winner.getName()+" moves like a ballet dancer! "+loser.getName()+" can't land a hit! Wow! But he can sure take one! Ouch!",
+                winner.getName()+" ducks under a superkick and uses the ropes for a strike back against "+loser.getName()+"!",
+                winner.getName()+" Dodged and kicked back! H-he's fast!", "Good thing "+winner.getName()+" dodged that attack, " +
+                "or the fight would've been over before it even started... Did "+loser.getName()+" just slipped on his own sweat?",
+                "-That would be a murderous blow Jim!\n-If only it had hit anything.\n-Well, he got hit, that's still fun.",
+                winner.getName()+" got out of "+loser.getName()+"'s grab! AND SMASHED BACK WITH A TABLE!!!",
+        };
+
+        return reaction[random.nextInt(reaction.length)];
+    }
+    private String grabStrikeReaction (Wrestler loser, Wrestler winner) {
+
+        Random random = new Random();
+        String[] reaction = {"He chucks him into the ropes!... OH MY GOD, HOW DID HE MANAGE TO TURN THIS AROUND!? Now " +
+                loser.getName()+" is knocked down on the ground!","-Oh, "+loser.getName()+" grab failed spectacularly!\n" +
+                "-It reminds me of the infamous \"PJ maneuver\" of 1983!\n-Ah yes, Bob, the one where PJ Punk somehow " +
+                "broke his own back when trying to smash his opponent through a table?\n -That's the one, Jim! Although " +
+                "this time it wasn't quite as self-destructive.",loser.getName()+" jumps from the ropes, but " +
+                winner.getName()+" rolls from under his dropkick and pins him down!","What a GRAB! Is "+winner.getName()+
+                " into hugging? Nope! "+loser.getName()+" gets a wonderful strike!","That was close Jim, but "+winner.getName()
+                +" manged to avoid "+loser.getName()+"'s feared Magma Grab, and showed him down!","","","","",""
+        };
+
+        return reaction[random.nextInt(reaction.length)];
+    }
+
+
+
     public void show(Wrestler wrestlerA, Wrestler wrestlerB){
 
         int rounds = 1;
@@ -11,7 +71,7 @@ public class Ring {
             System.out.println("\n:::ROUND " + rounds + "!:::");
             rounds++;
             if (rounds == 11) {
-                System.out.println("Crowd is ready for a big face off! Each round will now take 10% wrestlers fame!");
+                System.out.println("Crowd heated up and ready for a big face off! Each round will now take 10% wrestlers fame! Let's hope that will move things along");
             }
 
             Wrestler.Move moveA = determinateMove(wrestlerA);
@@ -76,8 +136,8 @@ public class Ring {
             if (moveA.getTypeOfMove().equals("strike")){
                 System.out.println("Wow! "+wrestlerA.getName()+" and "+wrestlerB.getName()+" both strikeed hard at the " +
                         "same time! Dear God! This is Madness!");
-                getHurt(wrestlerA,moveB);
-                getHurt(wrestlerB,moveA);
+                getHurt(wrestlerA,wrestlerB,moveB);
+                getHurt(wrestlerB,wrestlerA,moveA);
             }else{
                 System.out.println("Well, both "+wrestlerA.getName()+" and "+wrestlerB.getName()+" tried to "
                         +moveA.getTypeOfMove()+" each other... It looks like really weird dancing, but that's all.");
@@ -98,7 +158,7 @@ public class Ring {
                 }
 
                 System.out.println(grabStrike(winner,loser));
-                getHurt(loser, winning);
+                getHurt(loser,winner, winning);
 
             }
 
@@ -114,7 +174,7 @@ public class Ring {
                     winning = moveB;
                 }
                 System.out.println(strikeDodge(winner,loser));
-                getHurt(loser, winning);
+                getHurt(loser,winner, winning);
             }
 
             //dodge<grab
@@ -129,7 +189,7 @@ public class Ring {
                     winning = moveB;
                 }
                 System.out.println(dodgeGrab(winner,loser));
-                getHurt(loser, winning);
+                getHurt(loser,winner, winning);
             }
         }
         }
@@ -161,7 +221,8 @@ public class Ring {
         return reactionsLibrary[random.nextInt(reactionsLibrary.length)];
     }
 
-    private void getHurt(Wrestler loser, Wrestler.Move winning){
+    private void getHurt(Wrestler loser, Wrestler winner, Wrestler.Move winning){
+        if (winning.getStrenghtOfMove()>(loser.getFame()/2)) System.out.println(bigDamageReaction(loser,winner));
         loser.setFame(loser.getFame()-winning.getStrenghtOfMove());
         System.out.println(loser.getName()+" loses "+winning.getStrenghtOfMove()+" fame points ("+loser.getFame()+" fame left)");
     }

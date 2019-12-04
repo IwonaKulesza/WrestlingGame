@@ -79,7 +79,6 @@ public class WrestlerCreator {
             System.out.println("Ok, hun. Sooo... first would be, of course, a name!");
             name = scanner.nextLine();
             System.out.println("Sounds like a name i would give to a pet Carp fish. But what do I know. Ok, focus now hotshot.");
-
             System.out.println("I need some statistics to put them on your collectibles, so just give me approximates of your STRIKE, GRAB and DODGE.\n" +
                     "Fit them somewhere between two and ten, okay? Makes stuff simple. Of course, low skills gives you higher fame, you know?");
 
@@ -125,67 +124,67 @@ public class WrestlerCreator {
     private Wrestler.Role chooseRole() {
         System.out.println("And the most important thing: Are you a Heel or a Face, sugar?");
         Wrestler.Role role;
-        label:
         while (true) {
-            System.out.println("I'm a (F)ace!      Of course I'm a (Heel).     (N)ot really sure yet...\n" +
+            System.out.println("I'm a (F)ace!      Of course I'm a (H)eel.     (N)ot really sure yet...\n" +
                     "(+2 STRIKE)           (+2 GRAB)");
-            String choosenRole = scanner.nextLine();
+            String choosenRole = scanner.next().toUpperCase();
 
-            switch (choosenRole.toUpperCase()) {
+            switch (choosenRole) {
                 case "F":
-                    role = Wrestler.Role.FACE;
-                    break label;
+                    return role = Wrestler.Role.FACE;
                 case "H":
-                    role = Wrestler.Role.HEEL;
-                    break label;
+                    return role = Wrestler.Role.HEEL;
                 case "N":
-                    role = Wrestler.Role.NEWCOMER;
-                    break label;
+                    return role = Wrestler.Role.NEWCOMER;
                 default:
                     System.out.println("Can you hear me under that mask, lollipop? What's your role?");
                     break;
             }
         }
-        return role;
     }
 
     private int chooseStatistic() {
-        System.out.println("so, remember! 2-10! Ooooh, or just (R)andom?");
+        System.out.println("so, remember! 2-10!");
         while (true) {
-            int stat;
-            String answer = scanner.next();
-            if (answer.toUpperCase().equals("R")) {
-                Random random = new Random();
-                stat = random.nextInt(8) + 2;
-            } else {
-                stat = Integer.parseInt(answer);
-            }
-            if (stat >= 2 && stat <= 10) {
-                System.out.println("I see, " + stat + ". Did i heard that correctly?\n      (Y)es   (N)o");
+            try {
+                int stat = scanner.nextInt();
 
-                if (yesOrNoAnswer(
-                        "noted!",
-                        "oh, sorry, then repeat your stat for me, please.",
-                        "...err? Sweetie, i think this mask is blocking your airflow... Focus please. Is your stat "+stat+"?\n (Y)es    (N)o")
-                ) {
-                    return stat;
+                if (stat >= 2 && stat <= 10) {
+
+                    System.out.println("I see, " + stat + ". Did i heard that correctly?" +
+                                        "\n      (Y)es   (N)o");
+
+                    if (yesOrNoAnswer(
+                            "noted!",
+                            "oh, sorry, then repeat your stat for me, please.",
+                            "...err? Sweetie, i think this mask is blocking your airflow... Focus please. Is your stat " + stat + "?\n       (Y)es    (N)o")
+                    ) {
+                        return stat;
+                    }
                 }
+            }catch (java.lang.NumberFormatException e) {
+                System.out.println("Dearest, i need a 2-10 number, ok? Try again.");
             }
-            System.out.println("Dearest, i need a 2-10 number, ok? Try again.");
         }
     }
 
     private boolean yesOrNoAnswer(String yes, String no, String other) {
+
+        Scanner scan = new Scanner(System.in);
+
         while (true) {
-            String scannedAnswer = scanner.nextLine().toUpperCase();
-            if (scannedAnswer.equals("Y")) {
-                System.out.println(yes);
-                return true;
-            } else if (scannedAnswer.equals("N")) {
-                System.out.println(no);
-                return false;
-            } else{
-                System.out.println(other);
+
+            String scannedAnswer = scan.nextLine().toUpperCase();
+
+            switch (scannedAnswer){
+                case "Y":
+                    System.out.println(yes);
+                    return true;
+                case "N":
+                    System.out.println(no);
+                    return false;
+                    default:
+                        System.out.println(other);
             }
         }
 
